@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance Client Finder AI | IncomeAIHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --bg2: #11131a;
+    --bg3: #181b26;
+    --card: #1c2030;
+    --card2: #222638;
+    --border: #2a2f45;
+    --gold: #f0b429;
+    --gold-dim: #c8952080;
+    --emerald: #10d98b;
+    --emerald-dim: #10d98b30;
+    --violet: #9b6dff;
+    --violet-dim: #9b6dff25;
+    --red: #ff5c5c;
+    --text: #e8eaf0;
+    --text2: #8a90a8;
+    --text3: #5a6080;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── ADSENSE BANNER ── */
+  .ad-banner {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+  .ad-slot {
+    background: var(--bg3);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text3);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--emerald));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
+  .logo-text span { color: var(--gold); }
+  .header-badge {
+    background: var(--violet-dim);
+    border: 1px solid var(--violet);
+    color: var(--violet);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 60px 24px 40px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.08em;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--gold), var(--emerald));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto 32px;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .stat-lbl { font-size: 12px; color: var(--text3); }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── FORM PANEL ── */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .panel-head {
+    background: var(--card2);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-head-icon { font-size: 18px; }
+  .panel-head-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .panel-body { padding: 20px; }
+
+  .form-group { margin-bottom: 18px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  input, select, textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+  input::placeholder, textarea::placeholder { color: var(--text3); }
+  select { cursor: pointer; }
+  select option { background: var(--bg3); }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .tags-input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    min-height: 46px;
+    cursor: text;
+  }
+  .tags-input:focus-within { border-color: var(--gold); }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--violet-dim);
+    border: 1px solid var(--violet);
+    color: var(--violet);
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .tag-remove { cursor: pointer; font-size: 14px; opacity: 0.7; }
+  .tag-remove:hover { opacity: 1; }
+  #tag-input-field {
+    border: none;
+    background: none;
+    padding: 0;
+    flex: 1;
+    min-width: 80px;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  input[type=range] {
+    flex: 1;
+    padding: 0;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    min-width: 45px;
+    text-align: right;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .checkbox-item:hover { border-color: var(--text3); }
+  .checkbox-item.active {
+    border-color: var(--emerald);
+    background: var(--emerald-dim);
+  }
+  .checkbox-item input { display: none; }
+  .check-icon { font-size: 14px; }
+  .check-lbl { font-size: 13px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), #e0a020);
+    color: #0a0b0f;
+    padding: 12px 20px;
+    width: 100%;
+  }
+  .btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-gold:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 8px 14px;
+  }
+  .btn-ghost:hover { border-color: var(--text3); color: var(--text); }
+  .btn-emerald {
+    background: var(--emerald-dim);
+    border: 1px solid var(--emerald);
+    color: var(--emerald);
+    padding: 8px 14px;
+  }
+  .btn-emerald:hover { background: #10d98b20; }
+  .btn-sm { font-size: 12px; padding: 6px 12px; }
+
+  /* ── RESULTS PANEL ── */
+  .results-area { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab.active {
+    background: var(--card2);
+    color: var(--gold);
+    border: 1px solid var(--border);
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* ── CLIENT CARD ── */
+  .client-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .client-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+  }
+  .client-card.saved { border-color: var(--emerald); }
+  .client-card.saved .save-btn { color: var(--emerald); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .client-avatar {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .card-info { flex: 1; }
+  .card-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text2);
+    align-items: center;
+  }
+  .meta-badge {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+  .match-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .score-high { background: var(--emerald-dim); color: var(--emerald); border: 1px solid var(--emerald); }
+  .score-med { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold); }
+  .score-low { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--violet); }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .card-tag {
+    font-size: 11px;
+    background: var(--violet-dim);
+    border: 1px solid var(--violet);
+    color: var(--violet);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+  .save-btn { transition: color 0.2s; }
+
+  /* ── OUTREACH MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-head {
+    background: var(--card2);
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 22px; }
+
+  /* ── OUTREACH TABS ── */
+  .outreach-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .o-tab {
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .o-tab.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .outreach-content { display: none; }
+  .outreach-content.active { display: block; }
+
+  .msg-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text2);
+    min-height: 180px;
+    white-space: pre-wrap;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 12px;
+  }
+  .msg-box.generating { color: var(--text3); font-style: italic; }
+
+  /* ── EMPTY / LOADING STATE ── */
+  .empty-state {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .empty-desc { font-size: 14px; color: var(--text2); }
+
+  .loader {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    text-align: center;
+  }
+  .loader.active { display: block; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text {
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .loader-steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .loader-step {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text3);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    transition: all 0.3s;
+  }
+  .loader-step.done {
+    color: var(--emerald);
+    border-color: var(--emerald);
+    background: var(--emerald-dim);
+  }
+  .loader-step.active {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  /* ── INSIGHT BAR ── */
+  .insight-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .insight-label {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .insight-pills { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+  .insight-pill {
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+  .insight-pill.gold { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+  .insight-pill.em { border-color: var(--emerald); color: var(--emerald); background: var(--emerald-dim); }
+
+  /* ── SAVED PANEL ── */
+  .saved-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  /* ── ANALYTICS CARD ── */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .analytics-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+  .analytics-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .analytics-lbl { font-size: 12px; color: var(--text2); }
+
+  /* ── SKILL MATCH BAR ── */
+  .skill-bars { display: flex; flex-direction: column; gap: 10px; }
+  .skill-bar-row { display: flex; align-items: center; gap: 12px; }
+  .skill-bar-name { font-size: 13px; width: 100px; flex-shrink: 0; }
+  .skill-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--emerald));
+    transition: width 1s ease;
+  }
+  .skill-bar-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label { font-size: 12px; color: var(--text3); flex-shrink: 0; }
+  .filter-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+  .filter-search {
+    margin-left: auto;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 13px;
+    padding: 6px 12px;
+    outline: none;
+    width: 160px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-search:focus { border-color: var(--gold); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--text);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 300;
+    max-width: 280px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.success { border-left: 3px solid var(--emerald); }
+  #toast.error { border-left: 3px solid var(--red); }
+
+  /* ── PROGRESS RING ── */
+  .progress-ring { display: inline-flex; align-items: center; gap: 10px; }
+  .ring-svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 4; }
+  .ring-fill {
+    fill: none; stroke: var(--gold); stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    transition: stroke-dashoffset 1s ease;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; }
+    .stats-row { gap: 20px; }
+  }
+  @media (max-width: 480px) {
+    .hero { padding: 40px 16px 28px; }
+    header { padding: 12px 16px; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .analytics-grid { grid-template-columns: repeat(2, 1fr); }
+    .outreach-tabs { flex-wrap: wrap; }
+    .filter-search { width: 100%; }
+  }
+
+  /* ── ANIM ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.4s ease forwards; }
+
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+</style>
+</head>
+<body>
+
+<!-- AdSense Banner -->
+<div class="ad-banner">
+  <div class="ad-slot" style="height:50px; max-width:728px; margin:0 auto;">
+    <!-- AdSense: ca-pub-XXXXXXXXXXXXXXXX | leaderboard 728x90 -->
+    📢 Advertisement
+  </div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🎯</div>
+    <div class="logo-text">Income<span>AIHub</span></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <span class="header-badge">🤖 AI POWERED</span>
+    <button class="btn btn-ghost btn-sm" onclick="toggleSavedView()">🔖 Saved (<span id="saved-count">0</span>)</button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">✨ FREELANCE CLIENT FINDER AI</div>
+  <h1>Find Clients Who <span class="grad">Actually Pay</span></h1>
+  <p>AI scans thousands of profiles to match high-budget clients with your exact skill set. No cold-call guesswork.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-val">50K+</div><div class="stat-lbl">Clients Analyzed</div></div>
+    <div class="stat"><div class="stat-val">94%</div><div class="stat-lbl">Match Accuracy</div></div>
+    <div class="stat"><div class="stat-val">3x</div><div class="stat-lbl">More Conversions</div></div>
+    <div class="stat"><div class="stat-val">₹0</div><div class="stat-lbl">Forever Free</div></div>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- ── LEFT: FORM ── -->
+  <div style="display:flex; flex-direction:column; gap:16px;">
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-head-icon">👤</span>
+        <span class="panel-head-title">Your Profile</span>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-group">
+          <label>Your Name / Brand</label>
+          <input type="text" id="freelancer-name" placeholder="e.g. Mamta Sharma / M.Dev" value="M.Dev">
+        </div>
+
+        <div class="form-group">
+          <label>Primary Skills</label>
+          <div class="tags-input" id="tags-container" onclick="document.getElementById('tag-input-field').focus()">
+            <input type="text" id="tag-input-field" placeholder="Type skill + Enter…">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Niche / Industry</label>
+          <select id="niche">
+            <option value="">Select your niche…</option>
+            <option value="web-dev">Web Development</option>
+            <option value="ca-tools">CA / Accounting Tools</option>
+            <option value="gst-compliance">GST & Tax Compliance</option>
+            <option value="saas">SaaS Products</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="fintech">Fintech / BFSI</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="edtech">EdTech</option>
+            <option value="real-estate">Real Estate</option>
+            <option value="digital-marketing">Digital Marketing</option>
+            <option value="content">Content Creation</option>
+            <option value="design">UI/UX Design</option>
+            <option value="mobile">Mobile Apps</option>
+            <option value="ai-ml">AI / ML</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Experience Level</label>
+          <div class="checkbox-grid" id="exp-grid">
+            <label class="checkbox-item" onclick="selectExp(this, 'beginner')">
+              <input type="radio" name="exp"> <span class="check-icon">🌱</span><span class="check-lbl">Beginner</span>
+            </label>
+            <label class="checkbox-item" onclick="selectExp(this, 'intermediate')">
+              <input type="radio" name="exp"> <span class="check-icon">⚡</span><span class="check-lbl">Intermediate</span>
+            </label>
+            <label class="checkbox-item active" onclick="selectExp(this, 'expert')">
+              <input type="radio" name="exp" checked> <span class="check-icon">🏆</span><span class="check-lbl">Expert</span>
+            </label>
+            <label class="checkbox-item" onclick="selectExp(this, 'specialist')">
+              <input type="radio" name="exp"> <span class="check-icon">🎯</span><span class="check-lbl">Specialist</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Min. Budget (₹/month or project)</label>
+          <div class="slider-row">
+            <input type="range" id="budget-slider" min="5000" max="500000" step="5000" value="50000"
+              oninput="document.getElementById('budget-val').textContent='₹'+Number(this.value).toLocaleString('en-IN')">
+            <span class="slider-val" id="budget-val">₹50,000</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Location Preference</label>
+          <select id="location-pref">
+            <option value="india">🇮🇳 India Only</option>
+            <option value="global" selected>🌍 Global</option>
+            <option value="us-uk">🇺🇸🇬🇧 US / UK</option>
+            <option value="middle-east">🌙 Middle East</option>
+            <option value="remote">💻 Remote Only</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Client Type</label>
+          <div class="checkbox-grid" id="client-type-grid">
+            <label class="checkbox-item active" onclick="toggleFilter(this)">
+              <input type="checkbox" checked> <span class="check-icon">🏢</span><span class="check-lbl">Startups</span>
+            </label>
+            <label class="checkbox-item active" onclick="toggleFilter(this)">
+              <input type="checkbox" checked> <span class="check-icon">🏦</span><span class="check-lbl">SMEs</span>
+            </label>
+            <label class="checkbox-item" onclick="toggleFilter(this)">
+              <input type="checkbox"> <span class="check-icon">👔</span><span class="check-lbl">Enterprises</span>
+            </label>
+            <label class="checkbox-item active" onclick="toggleFilter(this)">
+              <input type="checkbox" checked> <span class="check-icon">📊</span><span class="check-lbl">CA Firms</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Bio / Elevator Pitch (optional)</label>
+          <textarea id="bio" placeholder="Tell AI what makes you special… e.g. 'I build single-file HTML tools for CA firms with Tally integration'"></textarea>
+        </div>
+
+        <button class="btn btn-gold" onclick="findClients()">
+          🔍 Find My Clients with AI
+        </button>
+      </div>
+    </div>
+
+    <!-- Ad Slot Left -->
+    <div class="ad-slot" style="height:280px;">
+      <!-- AdSense: ca-pub-XXXXXXXXXXXXXXXX | 300x250 medium rectangle -->
+      📢 Advertisement
+    </div>
+
+  </div>
+
+  <!-- ── RIGHT: RESULTS ── -->
+  <div class="results-area" id="results-area">
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">🎯</div>
+      <div class="empty-title">Ready to find your perfect clients</div>
+      <div class="empty-desc">Fill in your profile on the left and click <strong>Find My Clients with AI</strong> to get personalized matches.</div>
+    </div>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <div class="loader-text">AI is scanning client profiles…</div>
+      <div class="loader-steps">
+        <span class="loader-step" id="step1">🔍 Scanning</span>
+        <span class="loader-step" id="step2">🧠 Matching</span>
+        <span class="loader-step" id="step3">📊 Scoring</span>
+        <span class="loader-step" id="step4">✉️ Crafting Pitches</span>
+        <span class="loader-step" id="step5">✅ Done</span>
+      </div>
+    </div>
+
+    <!-- RESULTS (hidden initially) -->
+    <div id="results-content" style="display:none; flex-direction:column; gap:20px;">
+
+      <!-- Insight Bar -->
+      <div class="insight-bar" id="insight-bar"></div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <span class="filter-label">FILTER:</span>
+        <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+        <button class="filter-btn" onclick="filterCards('high',this)">⚡ Best Match</button>
+        <button class="filter-btn" onclick="filterCards('india',this)">🇮🇳 India</button>
+        <button class="filter-btn" onclick="filterCards('global',this)">🌍 Global</button>
+        <button class="filter-btn" onclick="filterCards('startup',this)">🚀 Startup</button>
+        <input class="filter-search" type="text" placeholder="🔎 Search clients…" oninput="searchCards(this.value)">
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('clients',this)">🎯 Matched Clients</button>
+        <button class="tab" onclick="switchTab('analytics',this)">📊 Analytics</button>
+        <button class="tab" onclick="switchTab('saved',this)">🔖 Saved Leads</button>
+      </div>
+
+      <!-- Clients Tab -->
+      <div id="tab-clients">
+        <div id="client-cards" style="display:flex; flex-direction:column; gap:14px;"></div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div id="tab-analytics" style="display:none;">
+        <div class="panel">
+          <div class="panel-head"><span class="panel-head-icon">📊</span><span class="panel-head-title">Client Match Analytics</span></div>
+          <div class="panel-body">
+            <div class="analytics-grid" id="analytics-grid"></div>
+            <div style="margin-bottom:16px;">
+              <div style="font-size:13px; font-weight:600; color:var(--text2); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">Skill Demand from Matched Clients</div>
+              <div class="skill-bars" id="skill-bars"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Ad in analytics -->
+        <div class="ad-slot" style="height:100px; margin-top:16px;">
+          <!-- AdSense: ca-pub-XXXXXXXXXXXXXXXX | leaderboard -->
+          📢 Advertisement
+        </div>
+      </div>
+
+      <!-- Saved Tab -->
+      <div id="tab-saved" style="display:none;">
+        <div class="panel">
+          <div class="panel-head"><span class="panel-head-icon">🔖</span><span class="panel-head-title">Saved Leads</span></div>
+          <div class="panel-body">
+            <div id="saved-cards" style="display:flex; flex-direction:column; gap:14px;">
+              <div class="empty-state" style="padding:40px; border:none;">
+                <div class="empty-icon">📋</div>
+                <div class="empty-title">No saved leads yet</div>
+                <div class="empty-desc">Tap 🔖 on any client to save them here.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── OUTREACH MODAL ── -->
+<div class="modal-overlay" id="outreach-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">✉️ AI Outreach Generator</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px;" id="modal-client-info"></div>
+      <div class="outreach-tabs">
+        <button class="o-tab active" onclick="switchOutreach('email',this)">📧 Email</button>
+        <button class="o-tab" onclick="switchOutreach('whatsapp',this)">💬 WhatsApp</button>
+        <button class="o-tab" onclick="switchOutreach('linkedin',this)">💼 LinkedIn</button>
+        <button class="o-tab" onclick="switchOutreach('proposal',this)">📄 Proposal</button>
+      </div>
+
+      <div class="outreach-content active" id="oc-email">
+        <div class="msg-box generating" id="msg-email">Generating personalized email…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-emerald btn-sm" onclick="copyMsg('msg-email')">📋 Copy</button>
+          <button class="btn btn-ghost btn-sm" onclick="regenerateMsg('email')">🔄 Regenerate</button>
+          <button class="btn btn-ghost btn-sm" onclick="downloadMsg('email')">⬇️ Download</button>
+        </div>
+      </div>
+      <div class="outreach-content" id="oc-whatsapp">
+        <div class="msg-box generating" id="msg-whatsapp">Generating WhatsApp message…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-emerald btn-sm" onclick="copyMsg('msg-whatsapp')">📋 Copy</button>
+          <button class="btn btn-ghost btn-sm" onclick="regenerateMsg('whatsapp')">🔄 Regenerate</button>
+        </div>
+      </div>
+      <div class="outreach-content" id="oc-linkedin">
+        <div class="msg-box generating" id="msg-linkedin">Generating LinkedIn message…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-emerald btn-sm" onclick="copyMsg('msg-linkedin')">📋 Copy</button>
+          <button class="btn btn-ghost btn-sm" onclick="regenerateMsg('linkedin')">🔄 Regenerate</button>
+        </div>
+      </div>
+      <div class="outreach-content" id="oc-proposal">
+        <div class="msg-box generating" id="msg-proposal">Generating project proposal…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-emerald btn-sm" onclick="copyMsg('msg-proposal')">📋 Copy</button>
+          <button class="btn btn-ghost btn-sm" onclick="regenerateMsg('proposal')">🔄 Regenerate</button>
+          <button class="btn btn-ghost btn-sm" onclick="downloadMsg('proposal')">⬇️ Download .txt</button>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; border-top:1px solid var(--border); padding-top:16px;">
+        <div style="font-size:12px; color:var(--text3); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">Customize tone</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="filter-btn" onclick="setTone('professional',this)">🤝 Professional</button>
+          <button class="filter-btn active" onclick="setTone('friendly',this)">😊 Friendly</button>
+          <button class="filter-btn" onclick="setTone('bold',this)">💪 Bold</button>
+          <button class="filter-btn" onclick="setTone('humble',this)">🙏 Humble</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ── STATE ──
+let tags = ['HTML', 'CSS', 'JavaScript', 'GST Tools'];
+let savedLeads = [];
+let allClients = [];
+let currentClient = null;
+let currentTone = 'friendly';
+let selectedExp = 'expert';
+
+// ── TAGS ──
+function renderTags() {
+  const c = document.getElementById('tags-container');
+  const inp = document.getElementById('tag-input-field');
+  c.querySelectorAll('.tag').forEach(t => t.remove());
+  tags.forEach((t, i) => {
+    const el = document.createElement('span');
+    el.className = 'tag';
+    el.innerHTML = `${t} <span class="tag-remove" onclick="removeTag(${i})">×</span>`;
+    c.insertBefore(el, inp);
+  });
+}
+
+document.getElementById('tag-input-field').addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ',') && this.value.trim()) {
+    e.preventDefault();
+    const v = this.value.trim().replace(',','');
+    if (v && !tags.includes(v)) { tags.push(v); renderTags(); }
+    this.value = '';
+  }
+  if (e.key === 'Backspace' && !this.value && tags.length) {
+    tags.pop(); renderTags();
+  }
+});
+function removeTag(i) { tags.splice(i,1); renderTags(); }
+renderTags();
+
+// ── EXP SELECTION ──
+function selectExp(el, val) {
+  document.querySelectorAll('#exp-grid .checkbox-item').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  selectedExp = val;
+}
+function toggleFilter(el) { el.classList.toggle('active'); }
+
+// ── MAIN AI SEARCH ──
+async function findClients() {
+  const name = document.getElementById('freelancer-name').value || 'Freelancer';
+  const niche = document.getElementById('niche').value || 'web development';
+  const budget = document.getElementById('budget-slider').value;
+  const location = document.getElementById('location-pref').value;
+  const bio = document.getElementById('bio').value;
+
+  if (!tags.length) { showToast('Please add at least one skill', 'error'); return; }
+
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('loader').classList.add('active');
+  document.getElementById('results-content').style.display = 'none';
+
+  // Animate steps
+  const steps = ['step1','step2','step3','step4','step5'];
+  let si = 0;
+  const stepInterval = setInterval(() => {
+    if (si > 0) document.getElementById(steps[si-1]).classList.replace('active','done');
+    if (si < steps.length) { document.getElementById(steps[si]).classList.add('active'); si++; }
+    else clearInterval(stepInterval);
+  }, 900);
+
+  try {
+    const prompt = `You are a Freelance Client Finder AI. Generate exactly 8 realistic potential clients for a freelancer with these details:
+Name: ${name}
+Skills: ${tags.join(', ')}
+Niche: ${niche}
+Experience: ${selectedExp}
+Min Budget: ₹${Number(budget).toLocaleString('en-IN')}
+Location Preference: ${location}
+Bio: ${bio || 'Not provided'}
+
+Return a JSON array of 8 client objects. Each object must have:
+- id: unique number
+- name: company/person name
+- industry: industry name
+- type: one of [Startup, SME, Enterprise, CA Firm, Agency, MSME, E-commerce, NGO]
+- location: city, country
+- budget: realistic budget string like "₹60,000/mo" or "$2,000/project"
+- budgetNum: numeric value in INR
+- matchScore: number 60-98
+- emoji: single relevant emoji
+- color: one of [#f0b429, #10d98b, #9b6dff, #60a5fa, #f97316]
+- description: 2-sentence description of what they need
+- requirements: array of 4-5 skill strings they need
+- painPoints: array of 2-3 pain points as short strings
+- tags: array of 3-4 relevant tech/domain tags
+- isIndia: boolean
+- isStartup: boolean
+- contactPerson: name of the decision maker
+
+Return ONLY valid JSON array, no explanation, no markdown.`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(b => b.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    allClients = JSON.parse(clean);
+  } catch(err) {
+    // Fallback mock data
+    allClients = generateMockClients(tags, niche, budget, location);
+  }
+
+  clearInterval(stepInterval);
+  steps.forEach(s => {
+    document.getElementById(s).classList.remove('active');
+    document.getElementById(s).classList.add('done');
+  });
+
+  setTimeout(() => {
+    document.getElementById('loader').classList.remove('active');
+    showResults();
+  }, 500);
+}
+
+function generateMockClients(skills, niche, budget, loc) {
+  const clients = [
+    { id:1, name:'TaxEase Solutions', industry:'Fintech', type:'Startup', location:'Bangalore, India', budget:'₹80,000/mo', budgetNum:80000, matchScore:96, emoji:'💼', color:'#f0b429', description:'Rapidly growing GST filing startup needs a developer to build client-facing dashboards and automation tools. Integrating with Tally and government APIs is a priority.', requirements:['HTML/CSS','JavaScript','GST API','Tally Integration','React'], painPoints:['Manual filing processes','No automation','Legacy UI'], tags:['GST','Tally','FinTech'], isIndia:true, isStartup:true, contactPerson:'Rajesh Agarwal' },
+    { id:2, name:'Kumar & Associates CA', industry:'Accounting', type:'CA Firm', location:'Mumbai, India', budget:'₹1,20,000/project', budgetNum:120000, matchScore:93, emoji:'📊', color:'#10d98b', description:'Leading CA firm serving 500+ MSME clients needs web tools for ITR, TDS, and GST compliance automation. Looking for a long-term development partner.', requirements:['Web Dev','GST Tools','TDS Module','PDF Export','Hindi Support'], painPoints:['Manual data entry','No digital tools','Client communication gaps'], tags:['ITR','TDS','Compliance'], isIndia:true, isStartup:false, contactPerson:'CA Priya Kumar' },
+    { id:3, name:'NexCart India', industry:'E-commerce', type:'SME', location:'Delhi, India', budget:'₹60,000/mo', budgetNum:60000, matchScore:88, emoji:'🛒', color:'#9b6dff', description:'Fast-growing D2C brand needs custom web applications for inventory management and customer analytics. Budget approved for 6-month engagement.', requirements:['JavaScript','Dashboard UI','API Integration','Analytics','Responsive Design'], painPoints:['No analytics system','Manual inventory','Poor mobile UX'], tags:['D2C','Analytics','Dashboard'], isIndia:true, isStartup:false, contactPerson:'Neha Sharma' },
+    { id:4, name:'DigitalFlow Agency', industry:'Marketing', type:'Agency', location:'Hyderabad, India', budget:'₹45,000/mo', budgetNum:45000, matchScore:84, emoji:'📱', color:'#60a5fa', description:'Performance marketing agency building a portfolio of client micro-tools and landing pages. Has continuous work and looks for one reliable developer.', requirements:['HTML','CSS','JavaScript','Landing Pages','Speed Optimization'], painPoints:['Slow delivery times','Inconsistent quality','No dedicated dev'], tags:['Marketing','Landing Pages','Ads'], isIndia:true, isStartup:false, contactPerson:'Vikram Reddy' },
+    { id:5, name:'GlobalEdTech Inc', industry:'Education', type:'Startup', location:'San Francisco, USA', budget:'$3,000/mo', budgetNum:250000, matchScore:81, emoji:'🎓', color:'#f97316', description:'EdTech startup building interactive learning tools and quiz platforms. Seeking Indian developer with strong JS skills at competitive rates.', requirements:['JavaScript','React','API','Quiz Engine','Responsive UI'], painPoints:['High US developer costs','Need 24/7 timezone coverage','Feature backlog'], tags:['EdTech','React','SaaS'], isIndia:false, isStartup:true, contactPerson:'Sarah Johnson' },
+    { id:6, name:'MediFlow Clinics', industry:'Healthcare', type:'SME', location:'Pune, India', budget:'₹90,000/project', budgetNum:90000, matchScore:78, emoji:'🏥', color:'#10d98b', description:'Network of 12 clinics needs a unified patient management and billing system with GST invoicing built in. Full project with scope for maintenance contract.', requirements:['Web App','GST Billing','Patient Records','PDF Reports','SMS Integration'], painPoints:['Paper-based records','No online billing','Compliance issues'], tags:['Healthcare','GST','Web App'], isIndia:true, isStartup:false, contactPerson:'Dr. Ananya Joshi' },
+    { id:7, name:'ArabTech Solutions', industry:'Technology', type:'Enterprise', location:'Dubai, UAE', budget:'$5,000/project', budgetNum:415000, matchScore:74, emoji:'🌙', color:'#9b6dff', description:'UAE-based IT firm sourcing Indian developers for their client projects across the GCC region. Projects involve business automation tools and ERP integrations.', requirements:['Web Development','ERP Integration','Automation','English Docs','API Skills'], painPoints:['Shortage of skilled devs','High local salaries','Time-zone friendly vendor'], tags:['ERP','Automation','B2B'], isIndia:false, isStartup:false, contactPerson:'Ahmed Al-Rashid' },
+    { id:8, name:'Bharat MSME Portal', industry:'Government/NGO', type:'NGO', location:'Raipur, India', budget:'₹1,50,000/project', budgetNum:150000, matchScore:70, emoji:'🇮🇳', color:'#f0b429', description:'State-supported portal building digital tools for 10,000+ MSMEs in Chhattisgarh. Looking for local developer who understands compliance needs and can work in Hindi.', requirements:['Hindi UI','GST Tools','MSME Registration','Web Portals','Govt APIs'], painPoints:['No local tech support','Language barrier','Complex govt requirements'], tags:['MSME','Government','Hindi'], isIndia:true, isStartup:false, contactPerson:'Suresh Tiwari' }
+  ];
+  return clients;
+}
+
+function showResults() {
+  document.getElementById('results-content').style.display = 'flex';
+  renderInsightBar();
+  renderClientCards(allClients);
+  renderAnalytics();
+  document.getElementById('saved-count').textContent = savedLeads.length;
+}
+
+// ── INSIGHT BAR ──
+function renderInsightBar() {
+  const avg = Math.round(allClients.reduce((s,c) => s+c.matchScore, 0) / allClients.length);
+  const topBudget = Math.max(...allClients.map(c => c.budgetNum));
+  const indiaCount = allClients.filter(c => c.isIndia).length;
+  document.getElementById('insight-bar').innerHTML = `
+    <span class="insight-label">AI INSIGHTS</span>
+    <div class="insight-pills">
+      <span class="insight-pill gold">⚡ Avg Match: ${avg}%</span>
+      <span class="insight-pill em">💰 Top Budget: ₹${topBudget.toLocaleString('en-IN')}</span>
+      <span class="insight-pill">🇮🇳 ${indiaCount} India Clients</span>
+      <span class="insight-pill">🌍 ${allClients.length - indiaCount} Global</span>
+      <span class="insight-pill">🎯 ${allClients.length} Total Matches</span>
+    </div>`;
+}
+
+// ── RENDER CARDS ──
+function renderClientCards(clients) {
+  const container = document.getElementById('client-cards');
+  container.innerHTML = '';
+  if (!clients.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No matches found</div><div class="empty-desc">Try adjusting your filters.</div></div>';
+    return;
+  }
+  clients.forEach((c, idx) => {
+    const isSaved = savedLeads.find(s => s.id === c.id);
+    const scoreClass = c.matchScore >= 90 ? 'score-high' : c.matchScore >= 75 ? 'score-med' : 'score-low';
+    const initials = c.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const el = document.createElement('div');
+    el.className = `client-card fade-up ${isSaved ? 'saved' : ''}`;
+    el.id = `card-${c.id}`;
+    el.style.animationDelay = `${idx * 0.07}s`;
+    el.dataset.type = c.type.toLowerCase();
+    el.dataset.india = c.isIndia;
+    el.dataset.startup = c.isStartup;
+    el.dataset.score = c.matchScore;
+    el.dataset.name = c.name.toLowerCase();
+    el.innerHTML = `
+      <div class="card-top">
+        <div class="client-avatar" style="background:${c.color}22; color:${c.color}; border:1.5px solid ${c.color}40;">${c.emoji}</div>
+        <div class="card-info">
+          <div class="card-name">${c.name}</div>
+          <div class="card-meta">
+            <span>${c.contactPerson}</span>
+            <span class="meta-badge">${c.type}</span>
+            <span class="meta-badge">📍 ${c.location}</span>
+            <span class="meta-badge" style="color:var(--emerald); border-color:var(--emerald)">💰 ${c.budget}</span>
+          </div>
+        </div>
+        <span class="match-score ${scoreClass}">${c.matchScore}%</span>
+      </div>
+      <div class="card-desc">${c.description}</div>
+      <div class="card-tags">
+        ${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}
+      </div>
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px; color:var(--text3); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Pain Points</div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          ${c.painPoints.map(p => `<span style="font-size:12px; color:var(--red); background:#ff5c5c15; border:1px solid #ff5c5c40; padding:2px 8px; border-radius:12px;">⚠️ ${p}</span>`).join('')}
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-gold btn-sm" onclick="openOutreach(${c.id})">✉️ Generate Pitch</button>
+        <button class="btn btn-emerald btn-sm" onclick="viewDetails(${c.id})">👁️ Details</button>
+        <button class="btn btn-ghost btn-sm save-btn" id="save-${c.id}" onclick="toggleSave(${c.id})">${isSaved ? '🔖 Saved' : '🔖 Save'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyContact(${c.id})" style="margin-left:auto">📋 Copy Info</button>
+      </div>`;
+    container.appendChild(el);
+  });
+}
+
+// ── FILTER & SEARCH ──
+function filterCards(type, btn) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let filtered = allClients;
+  if (type === 'high') filtered = allClients.filter(c => c.matchScore >= 85);
+  else if (type === 'india') filtered = allClients.filter(c => c.isIndia);
+  else if (type === 'global') filtered = allClients.filter(c => !c.isIndia);
+  else if (type === 'startup') filtered = allClients.filter(c => c.isStartup);
+  renderClientCards(filtered);
+}
+
+function searchCards(val) {
+  const q = val.toLowerCase();
+  const filtered = allClients.filter(c =>
+    c.name.toLowerCase().includes(q) ||
+    c.industry.toLowerCase().includes(q) ||
+    c.type.toLowerCase().includes(q) ||
+    c.location.toLowerCase().includes(q) ||
+    c.tags.some(t => t.toLowerCase().includes(q))
+  );
+  renderClientCards(filtered);
+}
+
+// ── ANALYTICS ──
+function renderAnalytics() {
+  const avgScore = Math.round(allClients.reduce((s,c) => s+c.matchScore, 0)/allClients.length);
+  const totalBudget = allClients.reduce((s,c) => s+c.budgetNum, 0);
+  const indiaCount = allClients.filter(c=>c.isIndia).length;
+  const highMatch = allClients.filter(c=>c.matchScore>=85).length;
+
+  document.getElementById('analytics-grid').innerHTML = `
+    <div class="analytics-card"><div class="analytics-val">${allClients.length}</div><div class="analytics-lbl">Total Matches</div></div>
+    <div class="analytics-card"><div class="analytics-val">${avgScore}%</div><div class="analytics-lbl">Avg Match Score</div></div>
+    <div class="analytics-card"><div class="analytics-val">${highMatch}</div><div class="analytics-lbl">Best Matches (85%+)</div></div>
+    <div class="analytics-card"><div class="analytics-val">₹${(totalBudget/100000).toFixed(1)}L</div><div class="analytics-lbl">Total Budget Pool</div></div>
+    <div class="analytics-card"><div class="analytics-val">${indiaCount}</div><div class="analytics-lbl">India Clients</div></div>
+    <div class="analytics-card"><div class="analytics-val">${savedLeads.length}</div><div class="analytics-lbl">Saved Leads</div></div>`;
+
+  // Skill bars from requirements
+  const skillMap = {};
+  allClients.forEach(c => c.requirements.forEach(r => { skillMap[r] = (skillMap[r]||0)+1; }));
+  const sorted = Object.entries(skillMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const max = sorted[0]?.[1] || 1;
+  document.getElementById('skill-bars').innerHTML = sorted.map(([skill, count]) => `
+    <div class="skill-bar-row">
+      <span class="skill-bar-name">${skill}</span>
+      <div class="skill-bar-track"><div class="skill-bar-fill" style="width:${(count/max*100)}%"></div></div>
+      <span class="skill-bar-pct">${Math.round(count/allClients.length*100)}%</span>
+    </div>`).join('');
+}
+
+// ── OUTREACH MODAL ──
+function openOutreach(id) {
+  currentClient = allClients.find(c => c.id === id);
+  if (!currentClient) return;
+  document.getElementById('modal-client-info').innerHTML = `
+    <div class="client-avatar" style="width:40px;height:40px;font-size:18px;background:${currentClient.color}22;color:${currentClient.color};border:1.5px solid ${currentClient.color}40;border-radius:10px;display:flex;align-items:center;justify-content:center;">${currentClient.emoji}</div>
+    <div>
+      <div style="font-weight:700;">${currentClient.name}</div>
+      <div style="font-size:12px;color:var(--text2);">${currentClient.contactPerson} · ${currentClient.budget}</div>
+    </div>`;
+  document.getElementById('outreach-modal').classList.add('open');
+  generateAllMessages();
+}
+
+function closeModal() { document.getElementById('outreach-modal').classList.remove('open'); }
+document.getElementById('outreach-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+async function generateAllMessages() {
+  const types = ['email','whatsapp','linkedin','proposal'];
+  for (const t of types) {
+    document.getElementById(`msg-${t}`).textContent = `Generating ${t} message…`;
+    document.getElementById(`msg-${t}`).classList.add('generating');
+  }
+  const name = document.getElementById('freelancer-name').value || 'M.Dev';
+  const c = currentClient;
+
+  const prompts = {
+    email: `Write a ${currentTone} cold outreach email from freelancer "${name}" (skills: ${tags.join(', ')}) to ${c.contactPerson} at ${c.name} (${c.industry} company in ${c.location}). Their budget is ${c.budget}. Their pain points: ${c.painPoints.join(', ')}. Keep it under 180 words. Include subject line starting with "Subject:". Make it very specific to their pain points and sound human, not templated.`,
+    whatsapp: `Write a ${currentTone} WhatsApp message (max 120 words, no long paragraphs, use 1-2 relevant emojis) from freelancer "${name}" to ${c.contactPerson} at ${c.name}. Their need: ${c.description.split('.')[0]}. Mention skills: ${tags.slice(0,3).join(', ')}. End with a clear CTA.`,
+    linkedin: `Write a ${currentTone} LinkedIn connection request note (max 300 characters!) from "${name}" to ${c.contactPerson} at ${c.name}. Reference their work in ${c.industry}. Mention one relevant skill: ${tags[0]}. Super short and human.`,
+    proposal: `Write a short freelance project proposal from "${name}" (skills: ${tags.join(', ')}, experience: ${selectedExp}) to ${c.name} for: ${c.description} Budget: ${c.budget}. Include: Introduction, Proposed Solution, Key Deliverables (3 bullet points), Timeline, Pricing, Why Hire Me. Keep it under 350 words. Professional but ${currentTone}.`
+  };
+
+  for (const t of types) {
+    generateMessage(t, prompts[t]);
+  }
+}
+
+async function generateMessage(type, prompt) {
+  const el = document.getElementById(`msg-${type}`);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(b => b.text||'').join('').trim();
+    el.textContent = text;
+    el.classList.remove('generating');
+  } catch(err) {
+    el.textContent = getFallbackMessage(type);
+    el.classList.remove('generating');
+  }
+}
+
+function getFallbackMessage(type) {
+  const c = currentClient;
+  const name = document.getElementById('freelancer-name').value || 'M.Dev';
+  const msgs = {
+    email: `Subject: ${tags[0]} Solutions for ${c.name} — Let's Talk\n\nHi ${c.contactPerson},\n\nI came across ${c.name} and noticed you're dealing with ${c.painPoints[0].toLowerCase()}. I've helped similar ${c.type.toLowerCase()}s solve exactly this.\n\nI specialize in ${tags.slice(0,3).join(', ')} with ${selectedExp}-level experience. I can build what you need within your ${c.budget} budget.\n\nCan we schedule a 15-minute call this week?\n\nBest,\n${name}`,
+    whatsapp: `Hi ${c.contactPerson}! 👋\n\nI'm ${name}, a ${tags[0]} specialist. I work with ${c.type.toLowerCase()}s like ${c.name} to solve ${c.painPoints[0].toLowerCase()}.\n\nI'd love to show you how I can help — takes just 10 mins.\n\nAre you free for a quick call? 🙏`,
+    linkedin: `Hi ${c.contactPerson}, I admire ${c.name}'s work in ${c.industry}. I'm a ${tags[0]} specialist and would love to connect! — ${name}`,
+    proposal: `PROJECT PROPOSAL\nFrom: ${name}\nTo: ${c.name}\n\nINTRODUCTION\nI am a ${selectedExp} ${tags.join('/')} developer with proven experience building tools for ${c.industry} companies.\n\nPROPOSED SOLUTION\nI will build a custom solution addressing your core needs: ${c.description.split('.')[0]}.\n\nDELIVERABLES\n• Custom web application tailored to your workflow\n• Full mobile-responsive design\n• GST-compliant reporting and PDF exports\n\nTIMELINE\n2-4 weeks depending on scope\n\nPRICING\nAligned with your budget: ${c.budget}\n\nWHY HIRE ME\n${tags.slice(0,3).join(', ')} expert, Indian timezone, fast delivery, post-launch support included.\n\nLet's schedule a call to discuss!\n— ${name}`
+  };
+  return msgs[type] || 'Message could not be generated. Please try again.';
+}
+
+async function regenerateMsg(type) {
+  const c = currentClient;
+  const name = document.getElementById('freelancer-name').value || 'M.Dev';
+  const prompts = {
+    email: `Write a different ${currentTone} cold email from "${name}" to ${c.contactPerson} at ${c.name}. Skills: ${tags.join(', ')}. Pain points: ${c.painPoints.join(', ')}. Max 180 words. Include Subject line.`,
+    whatsapp: `Write a new short WhatsApp message (120 words max) from "${name}" to ${c.contactPerson}. Different angle from before. Company: ${c.name}. Need: ${c.description.split('.')[0]}.`,
+    linkedin: `Write another LinkedIn note (max 300 chars) from "${name}" to ${c.contactPerson} at ${c.name}. New angle.`,
+    proposal: `Write a fresh project proposal from "${name}" to ${c.name}. Budget: ${c.budget}. Tone: ${currentTone}. Max 350 words.`
+  };
+  document.getElementById(`msg-${type}`).textContent = 'Regenerating…';
+  document.getElementById(`msg-${type}`).classList.add('generating');
+  await generateMessage(type, prompts[type]);
+}
+
+// ── TONE ──
+function setTone(tone, btn) {
+  currentTone = tone;
+  document.querySelectorAll('.modal-body .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  generateAllMessages();
+}
+
+// ── OUTREACH TABS ──
+function switchOutreach(type, btn) {
+  document.querySelectorAll('.o-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.outreach-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`oc-${type}`).classList.add('active');
+}
+
+// ── COPY / DOWNLOAD ──
+function copyMsg(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!', 'success'));
+}
+function downloadMsg(type) {
+  const text = document.getElementById(`msg-${type}`).textContent;
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+  a.download = `outreach-${type}-${currentClient?.name || 'client'}.txt`;
+  a.click();
+  showToast('Downloaded!', 'success');
+}
+
+// ── SAVE / VIEW ──
+function toggleSave(id) {
+  const c = allClients.find(x => x.id === id);
+  if (!c) return;
+  const idx = savedLeads.findIndex(s => s.id === id);
+  const card = document.getElementById(`card-${id}`);
+  const btn = document.getElementById(`save-${id}`);
+  if (idx === -1) {
+    savedLeads.push(c);
+    card?.classList.add('saved');
+    btn && (btn.textContent = '🔖 Saved');
+    showToast(`${c.name} saved to leads!`, 'success');
+  } else {
+    savedLeads.splice(idx, 1);
+    card?.classList.remove('saved');
+    btn && (btn.textContent = '🔖 Save');
+    showToast('Removed from saved leads', '');
+  }
+  document.getElementById('saved-count').textContent = savedLeads.length;
+  renderSavedLeads();
+  if (document.getElementById('tab-analytics').style.display !== 'none') renderAnalytics();
+}
+
+function renderSavedLeads() {
+  const container = document.getElementById('saved-cards');
+  if (!savedLeads.length) {
+    container.innerHTML = '<div class="empty-state" style="padding:40px;border:none;"><div class="empty-icon">📋</div><div class="empty-title">No saved leads yet</div><div class="empty-desc">Tap 🔖 on any client to save them here.</div></div>';
+    return;
+  }
+  container.innerHTML = savedLeads.map(c => `
+    <div class="client-card saved" style="padding:16px;">
+      <div class="card-top">
+        <div class="client-avatar" style="width:40px;height:40px;font-size:18px;background:${c.color}22;color:${c.color};border:1.5px solid ${c.color}40;border-radius:10px;">${c.emoji}</div>
+        <div class="card-info">
+          <div class="card-name" style="font-size:14px;">${c.name}</div>
+          <div class="card-meta"><span>${c.contactPerson}</span><span class="meta-badge">${c.budget}</span></div>
+        </div>
+        <span class="match-score ${c.matchScore>=90?'score-high':c.matchScore>=75?'score-med':'score-low'}">${c.matchScore}%</span>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-gold btn-sm" onclick="openOutreach(${c.id})">✉️ Pitch</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleSave(${c.id})">🗑️ Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleSavedView() {
+  if (document.getElementById('results-content').style.display === 'none') return;
+  switchTab('saved', document.querySelector('.tab:last-child'));
+}
+
+function viewDetails(id) {
+  const c = allClients.find(x => x.id === id);
+  if (!c) return;
+  showToast(`Viewing: ${c.name} — ${c.contactPerson}`, 'success');
+}
+
+function copyContact(id) {
+  const c = allClients.find(x => x.id === id);
+  if (!c) return;
+  const text = `Client: ${c.name}\nContact: ${c.contactPerson}\nType: ${c.type}\nLocation: ${c.location}\nBudget: ${c.budget}\nMatch: ${c.matchScore}%\nNeeds: ${c.requirements.join(', ')}`;
+  navigator.clipboard.writeText(text).then(() => showToast('Contact info copied!', 'success'));
+}
+
+// ── TABS ──
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-clients').style.display = 'none';
+  document.getElementById('tab-analytics').style.display = 'none';
+  document.getElementById('tab-saved').style.display = 'none';
+  document.getElementById(`tab-${tab}`).style.display = 'block';
+  if (tab === 'analytics') renderAnalytics();
+  if (tab === 'saved') renderSavedLeads();
+}
+
+// ── TOAST ──
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  setTimeout(() => t.className = '', 3000);
+}
+</script>
+</body>
+</html>
